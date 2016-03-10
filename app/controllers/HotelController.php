@@ -13,9 +13,6 @@ class HotelController extends ControllerBase
     {
         $hotel = Hotels::findFirst($hotelsId);
         $facility = Hotelsfacility::findFirstByHotelid($hotelsId);
-        $city = $hotel->city;
-        $province = $hotel->province;
-        $country = $hotel->country;
 
         $this->view->detail = $hotel;
         $this->view->facility = $facility;
@@ -23,7 +20,30 @@ class HotelController extends ControllerBase
 
     public function addAction()
     {
-        $hotel = new Hotels;
+        $this->view->city = City::find();
+        $this->view->provinces = Province::find();
+        $this->view->country = Country::find();
+
+        if($this->request->isPost()) {
+
+            $hotel = new Hotels();
+            
+            $hotel->assign(array(
+                'name' => $this->request->getPost('name'),
+                'address' => $this->request->getPost('address'),
+                'zipcode' => $this->request->getPost('zipcode'),
+                'price' => $this->request->getPost('price'),
+                'city_id' => $this->request->getPost('city'),
+                'province_id' => $this->request->getPost('province'),
+                'country_id' => $this->request->getPost('country')
+            ));
+
+            if (!$hotel->save()) {
+                $this->flash->error($hotel->getMessages());
+            } else {
+                $this->flash->success('Hotel was create Sucessfully');
+            }
+        }
 
     }
 
