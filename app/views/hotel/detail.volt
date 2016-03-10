@@ -8,9 +8,6 @@
         <th>City</th>
         <th>Province</th>
         <th>Country</th>
-        <th>Garage</th>
-        <th>Carports</th>
-        <th>Swimming Pool</th>
     </tr>
     </thead>
 
@@ -20,6 +17,22 @@
     <td>{{ detail.city.city }}</td>
     <td>{{ detail.province.province }}</td>
     <td>{{ detail.country.country }}</td>
+     </tbody>
+
+</table>
+<br>
+<h1>Facility</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <td>Garage</td>
+        <td>Carports</td>
+        <td>Swimming Pool</td>
+    </tr>
+    </thead>
+
+    <tbody>
     <td>{{ facility.garage }}</td>
     <td>{{ facility.carports }}</td>
     <td>{{ facility.swimmingpool }}</td>
