@@ -27,7 +27,6 @@ class HotelController extends ControllerBase
         if($this->request->isPost()) {
 
             $hotel = new Hotels();
-            
             $hotel->assign(array(
                 'name' => $this->request->getPost('name'),
                 'address' => $this->request->getPost('address'),
@@ -45,6 +44,21 @@ class HotelController extends ControllerBase
             }
         }
 
+    }
+
+    public function editAction($hotelsId)
+    {
+        $hotel = Hotels::findFirstById($hotelsId);
+        $facility = Hotelsfacility::findFirstByHotelid($hotelsId);
+
+        $this->view->hotel = $hotel;
+        $this->view->facility = $facility;
+
+    }
+
+    public function deleteAction($hotelsId)
+    {
+        $hotel = Hotels::findFirstById($hotelsId);
     }
 
 }
