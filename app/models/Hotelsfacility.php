@@ -17,21 +17,15 @@ class Hotelsfacility extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $garage;
+    public $name;
 
     /**
      *
      * @var integer
      */
-    public $carports;
-
-    /**
-     *
-     * @var integer
-     */
-    public $swimmingpool;
+    public $value;
 
     /**
      * Returns table name mapped in the model.
