@@ -26,15 +26,15 @@
 <table class="table">
     <thead>
     <tr>
-        <td>Name</td>
-        <td>Value</td>
-        <td></td>
+        <th>Name</th>
+        <th>Value</th>
+
     </tr>
     </thead>
-    {% for facilitys in facility %}
+
     <tbody>
-    <td>{{ facilitys.name }}</td>
-    <td>{{ facilitys.value }}</td>
+    <td>{{ detail.hotelsfacility.name }}</td>
+    <td></td>
     </tbody>
-    {% endfor %}
+
 </table>

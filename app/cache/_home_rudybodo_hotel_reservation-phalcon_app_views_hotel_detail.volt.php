@@ -26,15 +26,15 @@
 <table class="table">
     <thead>
     <tr>
-        <td>Garage</td>
-        <td>Carports</td>
-        <td>Swimming Pool</td>
+        <th>Name</th>
+        <th>Value</th>
+
     </tr>
     </thead>
 
     <tbody>
-    <td><?php echo $facility->garage; ?></td>
-    <td><?php echo $facility->carports; ?></td>
-    <td><?php echo $facility->swimmingpool; ?></td>
+    <td><?php echo $detail->hotelsfacility->name; ?></td>
+    <td></td>
     </tbody>
+
 </table>

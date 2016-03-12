@@ -13,19 +13,13 @@ class Hotelsfacility extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $hotelid;
-
-    /**
-     *
-     * @var string
-     */
-    public $name;
+    public $hotel_id;
 
     /**
      *
      * @var integer
      */
-    public $value;
+    public $faciility_id;
 
     /**
      * Returns table name mapped in the model.
@@ -34,7 +28,9 @@ class Hotelsfacility extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->belongsTo("hotelid", "Hotels", "id");
+        $this->belongsTo("hotel_id", "Hotels", "id");
+        $this->belongsTo("facility_id", "Facility", "id");
+
     }
 
     public function getSource()

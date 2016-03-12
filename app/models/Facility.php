@@ -1,6 +1,6 @@
 <?php
 
-class Province extends \Phalcon\Mvc\Model
+class Facility extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -13,33 +13,33 @@ class Province extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $province;
+    public $name;
 
     /**
      *
-     * @var string
+     * @var integer
      */
-    public $code;
+    public $value;
 
     /**
      * Returns table name mapped in the model.
      *
      * @return string
      */
-    public function initilize(){
-        $this->hasMany("id", "Hotels", "province_id");
+    public function initialize(){
+        $this->hasMany("id", "Hotelsfacility", "facility_id");
     }
 
     public function getSource()
     {
-        return 'province';
+        return 'facility';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Province[]
+     * @return Facility[]
      */
     public static function find($parameters = null)
     {
@@ -50,7 +50,7 @@ class Province extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Province
+     * @return Facility
      */
     public static function findFirst($parameters = null)
     {

@@ -26,6 +26,10 @@ class City extends \Phalcon\Mvc\Model
      *
      * @return string
      */
+    public function initilize(){
+        hasMany("id", "Hotels", "city_id");
+    }
+
     public function getSource()
     {
         return 'city';

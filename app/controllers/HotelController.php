@@ -2,6 +2,10 @@
 
 class HotelController extends ControllerBase
 {
+    public function flashAction()
+    {
+
+    }
 
     public function indexAction()
     {
@@ -14,12 +18,8 @@ class HotelController extends ControllerBase
     {
         $hotel = Hotels::findFirst($hotelsId);
 
-        $facility = Hotelsfacility::find(array(
-            "hotelid = '$hotelsId'"
-        ));
-
         $this->view->detail = $hotel;
-        $this->view->facility = $facility;
+
     }
 
 
@@ -29,22 +29,27 @@ class HotelController extends ControllerBase
 
         if($this->request->isPost()) {
 
-            $facility = new Hotelsfacility();
-
+            $facility = new Facility();
             $facility->assign(array(
-                'hotelid' => $hotelsId,
                 'name' => $this->request->getPost('name'),
                 'value' => $this->request->getPost('value')
             ));
 
-            if($facility->save() == false){
-                $this->flash->error($facility->getMessages());
+            $hotelsfacility = new Hotelsfacility();
+            $hotelsfacility->assign(array(
+                'hotel_id' => $hotelsId,
+                'facility_id' => $facility
+            ));
+
+            if(!$hotelsfacility->save()) {
+
+                $this->flash->error($hotelsfacility->getMessages());
             }
             else {
-                $this->flash->success('facility create was successfully');
+                $this->flash->success('add facility success');
             }
+
         }
-        $this->view->hotel = $hotel;
 
     }
 
@@ -70,20 +75,15 @@ class HotelController extends ControllerBase
                 $this->flash->error($hotel->getMessages());
 
             } else {
-                $this->flash->success('Hotel was create Sucessfully');
+                $this->flashSession->success('Hotel was create Sucessfully');
 
-                $this->dispatcher->forward(
-                    array(
-                        "action" => "index"
-                    )
-                );
+                return $this->response->redirect("/hotel/flash");
             }
         }
 
         $this->view->city = City::find();
         $this->view->provinces = Province::find();
         $this->view->country = Country::find();
-        $this->view->facility = Hotelsfacility::find();
 
     }
 
@@ -107,14 +107,15 @@ class HotelController extends ControllerBase
                 $this->flash->error($hotel->getMessages());
             }
             else{
-                $this->flash->success('update hotel was successfully');
+                $this->flashSession->success('update hotel was successfully');
+
+                return $this->response->redirect("/hotel/flash");
             }
         }
 
         $this->view->city = City::find();
         $this->view->provinces = Province::find();
         $this->view->country = Country::find();
-        $this->view->facility = Hotelsfacility::find();
 
     }
 
@@ -122,17 +123,15 @@ class HotelController extends ControllerBase
     public function deleteAction($hotelsId)
     {
         $hotel = Hotels::findFirstById($hotelsId);
-        if($hotel->delete() == false){
+        $facility = Hotelsfacility::findFirstByHotelid($hotelsId);
+
+        if(!$hotel->delete()){
             $this->flash->error($hotel->getMessages());
         }
         else{
-            $this->flash->success('The Hotel Deleted Successfully');
+            $this->flashSession->success('The Hotel Deleted Successfully');
 
-            $this->dispatcher->forward(
-                array(
-                    "action" => "index"
-                )
-            );
+            return $this->response->redirect("hotel/flash");
         }
     }
 

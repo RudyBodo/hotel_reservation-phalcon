@@ -37,6 +37,11 @@ class Country extends \Phalcon\Mvc\Model
      * @param mixed $parameters
      * @return Country[]
      */
+    public function initialize()
+    {
+        $this->hasMany("id", "Hotels", "country_id");
+    }
+
     public static function find($parameters = null)
     {
         return parent::find($parameters);

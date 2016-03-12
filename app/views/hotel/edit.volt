@@ -3,22 +3,22 @@
 <form method="post">
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" id="text">
+        <input type="text" name="name" class="form-control" id="text" required>
     </div>
 
     <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" name="address" class="form-control" id="text">
+        <input type="text" name="address" class="form-control" id="text" required>
     </div>
 
     <div class="form-group">
         <label for="zipcode">Zipcode</label>
-        <input type="text" name="zipcode" class="form-control" id="zipcode">
+        <input type="text" name="zipcode" class="form-control" id="zipcode" required>
     </div>
 
     <div class="form-group">
         <label for="price">Price</label>
-        <input type="text" name="price" class="form-control" id="price">
+        <input type="text" name="price" class="form-control" id="price" required>
     </div>
 
     <div class="form-group">

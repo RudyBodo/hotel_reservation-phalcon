@@ -58,7 +58,7 @@ class Hotels extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->hasMany("id", "Hotelsfacility", "hotelid");
+        $this->hasMany("id", "Hotelsfacility", "hotel_id");
         $this->belongsTo("city_id", "City", "id");
         $this->belongsTo("province_id", "Province", "id");
         $this->belongsTo("country_id", "Country", "id");
