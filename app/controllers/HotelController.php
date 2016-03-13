@@ -14,45 +14,45 @@ class HotelController extends ControllerBase
     }
 
 
-    public function detailAction($hotelsId)
+    public function detailAction()
     {
         $hotel = Hotels::findFirst($hotelsId);
 
         $this->view->detail = $hotel;
+        $this->view->facility = Hotelsfacility::find();
 
     }
 
 
     public function addfacilityAction($hotelsId)
     {
-        $hotel = Hotels::findFirst($hotelsId);
+        $hotel = Hotels::findFirstById($hotelsId);
 
         if($this->request->isPost()) {
 
-            $facility = new Facility();
-            $facility->assign(array(
-                'name' => $this->request->getPost('name'),
+            $hotelfacility = new Hotelsfacility();
+            $hotelfacility->assign(array(
+
+                'hotel_id' => $hotelsId,
+                'facility_id' => $this->request->getPost('facility'),
                 'value' => $this->request->getPost('value')
             ));
 
-            $hotelsfacility = new Hotelsfacility();
-            $hotelsfacility->assign(array(
-                'hotel_id' => $hotelsId,
-                'facility_id' => $facility
-            ));
+            if(!$hotelfacility->save()) {
 
-            if(!$hotelsfacility->save()) {
-
-                $this->flash->error($hotelsfacility->getMessages());
+                $this->flash->error($hotelfacility->getMessages());
             }
             else {
-                $this->flash->success('add facility success');
-            }
 
+                $this->flashSession->success('Add Facilities Successfully');
+                return $this->response->redirect("/hotel/flash");
+            }
         }
 
-    }
+        $this->view->facility = Facility::find();
+        $this->view->hotel = $hotel;
 
+    }
 
     public function addAction()
     {
@@ -123,7 +123,6 @@ class HotelController extends ControllerBase
     public function deleteAction($hotelsId)
     {
         $hotel = Hotels::findFirstById($hotelsId);
-        $facility = Hotelsfacility::findFirstByHotelid($hotelsId);
 
         if(!$hotel->delete()){
             $this->flash->error($hotel->getMessages());

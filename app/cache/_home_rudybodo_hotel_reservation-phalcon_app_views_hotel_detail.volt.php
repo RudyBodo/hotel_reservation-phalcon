@@ -32,9 +32,11 @@
     </tr>
     </thead>
 
+    <?php foreach ($facility as $f) { ?>
     <tbody>
-    <td><?php echo $detail->hotelsfacility->name; ?></td>
-    <td></td>
+    <td><?php echo $f->facility_id; ?></td>
+    <td><?php echo $f->value; ?></td>
     </tbody>
+    <?php } ?>
 
 </table>

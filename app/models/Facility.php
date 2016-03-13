@@ -17,16 +17,18 @@ class Facility extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $value;
+    public $nick;
 
     /**
      * Returns table name mapped in the model.
      *
      * @return string
      */
-    public function initialize(){
+
+    public function initilaize()
+    {
         $this->hasMany("id", "Hotelsfacility", "facility_id");
     }
 
@@ -41,6 +43,12 @@ class Facility extends \Phalcon\Mvc\Model
      * @param mixed $parameters
      * @return Facility[]
      */
+
+    public function initilize()
+    {
+     $this->hasMany("id", "Hotelsfacility", "facility_id");
+    }
+
     public static function find($parameters = null)
     {
         return parent::find($parameters);

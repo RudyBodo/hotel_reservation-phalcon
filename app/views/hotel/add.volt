@@ -32,7 +32,7 @@
 
     <div class="form-group">
         <label for="province">Province</label>
-        <select name="province" class="form-control" id="provincey">
+        <select name="province" class="form-control" id="province">
             {% for p in provinces %}
             <option value="{{p.id}}">{{ p.province }}</option>
             {% endfor %}
