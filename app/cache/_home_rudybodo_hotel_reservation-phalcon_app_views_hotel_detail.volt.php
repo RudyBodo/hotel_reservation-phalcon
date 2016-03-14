@@ -32,11 +32,10 @@
     </tr>
     </thead>
 
-    <?php foreach ($facility as $f) { ?>
+
     <tbody>
-    <td><?php echo $f->facility_id; ?></td>
-    <td><?php echo $f->value; ?></td>
+    <td></td>
+    <td></td>
     </tbody>
-    <?php } ?>
 
 </table>

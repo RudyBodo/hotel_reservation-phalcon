@@ -32,11 +32,10 @@
     </tr>
     </thead>
 
-    {% for f in facility %}
+
     <tbody>
-    <td>{{ f.facility_id }}</td>
-    <td>{{ f.value }}</td>
+    <td></td>
+    <td></td>
     </tbody>
-    {% endfor %}
 
 </table>

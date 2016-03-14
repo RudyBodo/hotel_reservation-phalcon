@@ -14,7 +14,7 @@ class HotelController extends ControllerBase
     }
 
 
-    public function detailAction()
+    public function detailAction($hotelsId)
     {
         $hotel = Hotels::findFirst($hotelsId);
 
