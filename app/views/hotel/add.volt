@@ -1,24 +1,24 @@
 <h1>Add Hotel</h1>
 
-<form method="post">
-    <div class="form-group">
+<form class="form-horizontal" method="post">
+    <div class="form-group" placeholder="nananana">
         <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" id="text" required>
+        <input type="text" name="name" placeholder="Hotel Name" class="form-control" id="text" required>
     </div>
 
     <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" name="address" class="form-control" id="text" required>
+        <input type="text" name="address" placeholder="Address" class="form-control" id="text" required>
     </div>
 
     <div class="form-group">
         <label for="zipcode">Zipcode</label>
-        <input type="text" name="zipcode" class="form-control" id="zipcode" required>
+        <input type="text" placeholder="Zipcode" name="zipcode" class="form-control" id="zipcode" required>
     </div>
 
     <div class="form-group">
         <label for="price">Price</label>
-        <input type="text" name="price" class="form-control" id="price" required>
+        <input type="text" placeholder="Price" name="price" class="form-control" id="price" required>
     </div>
 
     <div class="form-group">
@@ -47,5 +47,16 @@
             {% endfor %}
         </select>
     </div>
+
+    <div class="form-group">
+        <label for="facility">Facility</label>
+        <br>
+        {% for f in facility %}
+        <input name="facility" type="checkbox" value="{{ f.id }}">{{ f.name }}
+        <br>
+        {% endfor %}
+    </div>
+
     <button type="submit" class="btn btn-default" value="add">Add</button>
+
 </form>

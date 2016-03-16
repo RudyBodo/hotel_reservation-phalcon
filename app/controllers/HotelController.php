@@ -19,40 +19,10 @@ class HotelController extends ControllerBase
         $hotel = Hotels::findFirst($hotelsId);
 
         $this->view->detail = $hotel;
-        $this->view->facility = Hotelsfacility::find();
+        $this->view->facility = Hotelsfacility::findFirst($hotelsId);
 
     }
 
-
-    public function addfacilityAction($hotelsId)
-    {
-        $hotel = Hotels::findFirstById($hotelsId);
-
-        if($this->request->isPost()) {
-
-            $hotelfacility = new Hotelsfacility();
-            $hotelfacility->assign(array(
-
-                'hotel_id' => $hotelsId,
-                'facility_id' => $this->request->getPost('facility'),
-                'value' => $this->request->getPost('value')
-            ));
-
-            if(!$hotelfacility->save()) {
-
-                $this->flash->error($hotelfacility->getMessages());
-            }
-            else {
-
-                $this->flashSession->success('Add Facilities Successfully');
-                return $this->response->redirect("/hotel/flash");
-            }
-        }
-
-        $this->view->facility = Facility::find();
-        $this->view->hotel = $hotel;
-
-    }
 
     public function addAction()
     {
@@ -60,6 +30,7 @@ class HotelController extends ControllerBase
         if($this->request->isPost()) {
 
             $hotel = new Hotels();
+
             $hotel->assign(array(
 
                 'name' => $this->request->getPost('name'),
@@ -70,6 +41,17 @@ class HotelController extends ControllerBase
                 'province_id' => $this->request->getPost('province'),
                 'country_id' => $this->request->getPost('country')
             ));
+
+            $hotelfacility = new Hotelsfacility();
+
+            $hotelfacility->assign(array(
+
+                'hotel_id' => $hotelsId,
+                'facility_id' => $this->request->getPost('facility'),
+                'value' => $this->request->getPost('value')
+            ));
+
+            $hotel->hotelsfacility = $hotelfacility;
 
             if (!$hotel->save()) {
                 $this->flash->error($hotel->getMessages());
@@ -84,7 +66,7 @@ class HotelController extends ControllerBase
         $this->view->city = City::find();
         $this->view->provinces = Province::find();
         $this->view->country = Country::find();
-
+        $this->view->facility = Facility::find();
     }
 
 

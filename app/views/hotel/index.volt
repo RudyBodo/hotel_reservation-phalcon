@@ -15,7 +15,6 @@
         <td>
             {{ link_to('hotel/detail/' ~ hotels.id, 'Detail') }} |
             {{ link_to('/hotel/edit/' ~ hotels.id, 'Edit') }} |
-            {{ link_to('/hotel/addfacility/' ~ hotels.id, 'Facility') }} |
             {{ link_to('/hotel/delete/' ~ hotels.id, 'Delete') }}
         </td>
     </tbody>

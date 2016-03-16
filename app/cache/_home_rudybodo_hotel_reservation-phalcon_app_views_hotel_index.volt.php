@@ -15,7 +15,6 @@
         <td>
             <?php echo $this->tag->linkTo(array('hotel/detail/' . $hotels->id, 'Detail')); ?> |
             <?php echo $this->tag->linkTo(array('/hotel/edit/' . $hotels->id, 'Edit')); ?> |
-            <?php echo $this->tag->linkTo(array('/hotel/addfacility/' . $hotels->id, 'Facility')); ?> |
             <?php echo $this->tag->linkTo(array('/hotel/delete/' . $hotels->id, 'Delete')); ?>
         </td>
     </tbody>
