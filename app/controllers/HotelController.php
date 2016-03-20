@@ -2,10 +2,12 @@
 
 class HotelController extends ControllerBase
 {
+
     public function flashAction()
     {
 
     }
+
 
     public function indexAction()
     {
@@ -16,16 +18,28 @@ class HotelController extends ControllerBase
 
     public function detailAction($hotelsId)
     {
+        //check existing hotel
         $hotel = Hotels::findFirst($hotelsId);
+        if(!$hotel) {
 
-        $this->view->detail = $hotel;
-        $this->view->facility = Hotelsfacility::findFirst($hotelsId);
+            $this->flash->error('Hotel not exist');
+        }
+        else {
+
+            $this->view->detail = $hotel;
+        }
 
     }
 
 
     public function addAction()
     {
+        $check_session = $this->session->has('auth-admin');
+
+        if(!$check_session) {
+            $this->flash->error('You dont have permission');
+            return $this->response->forward('hotel');
+        }
 
         if($this->request->isPost()) {
 
@@ -72,8 +86,14 @@ class HotelController extends ControllerBase
 
     public function editAction($hotelsId)
     {
-        $hotel = Hotels::findFirstById($hotelsId);
 
+        if(!$this->session->has('auth-admin')) {
+
+            $this->flash->error('You dont have permission');
+            return $this->forward('/hotel');
+        }
+
+        $hotel = Hotels::findFirstById($hotelsId);
         if($this->request->isPost()){
             $hotel->assign(array(
                 'name' => $this->request->getPost('name'),
@@ -85,10 +105,23 @@ class HotelController extends ControllerBase
                 'country_id' => $this->request->getPost('country')
             ));
 
+            $hotelfacility = new Hotelsfacility();
+
+            $hotelfacility->assign(array(
+
+                'hotel_id' => $hotelsId,
+                'facility_id' => $this->request->getPost('facility'),
+                'value' => $this->request->getPost('value')
+            ));
+
+            $hotel->hotelsfacility = $hotelfacility;
+
             if(!$hotel->save()){
+
                 $this->flash->error($hotel->getMessages());
             }
             else{
+
                 $this->flashSession->success('update hotel was successfully');
 
                 return $this->response->redirect("/hotel/flash");
@@ -104,8 +137,14 @@ class HotelController extends ControllerBase
 
     public function deleteAction($hotelsId)
     {
-        $hotel = Hotels::findFirstById($hotelsId);
 
+        if(!$this->session->has('auth-admin')) {
+
+            $this->flash->error('You dont have permission');
+            return $this->forward('/hotel');
+        }
+
+        $hotel = Hotels::findFirstById($hotelsId);
         if(!$hotel->delete()){
             $this->flash->error($hotel->getMessages());
         }
@@ -115,6 +154,7 @@ class HotelController extends ControllerBase
             return $this->response->redirect("hotel/flash");
         }
     }
+
 
 }
 

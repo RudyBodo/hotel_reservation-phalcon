@@ -1,7 +1,7 @@
 <h1>Add Hotel</h1>
 
 <form class="form-horizontal" method="post">
-    <div class="form-group" placeholder="nananana">
+    <div class="form-group">
         <label for="name">Name</label>
         <input type="text" name="name" placeholder="Hotel Name" class="form-control" id="text" required>
     </div>

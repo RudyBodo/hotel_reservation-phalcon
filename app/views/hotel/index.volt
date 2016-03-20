@@ -13,9 +13,14 @@
     <tbody>
         <td>{{ hotels.name }}</td>
         <td>
+            {% if session.has('auth-admin') %}
+                {{ link_to('hotel/detail/' ~ hotels.id, 'Detail') }} |
+                {{ link_to('/hotel/edit/' ~ hotels.id, 'Edit') }} |
+                {{ link_to('/hotel/delete/' ~ hotels.id, 'Delete') }}
+            {% else %}
             {{ link_to('hotel/detail/' ~ hotels.id, 'Detail') }} |
-            {{ link_to('/hotel/edit/' ~ hotels.id, 'Edit') }} |
-            {{ link_to('/hotel/delete/' ~ hotels.id, 'Delete') }}
+            {{ link_to('/user/reserve/' ~ hotels.id, 'Reserve') }}
+            {% endif %}
         </td>
     </tbody>
     {% endfor %}

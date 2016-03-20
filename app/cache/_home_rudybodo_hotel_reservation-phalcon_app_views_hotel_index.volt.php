@@ -13,9 +13,14 @@
     <tbody>
         <td><?php echo $hotels->name; ?></td>
         <td>
+            <?php if ($this->session->has('auth-admin')) { ?>
+                <?php echo $this->tag->linkTo(array('hotel/detail/' . $hotels->id, 'Detail')); ?> |
+                <?php echo $this->tag->linkTo(array('/hotel/edit/' . $hotels->id, 'Edit')); ?> |
+                <?php echo $this->tag->linkTo(array('/hotel/delete/' . $hotels->id, 'Delete')); ?>
+            <?php } else { ?>
             <?php echo $this->tag->linkTo(array('hotel/detail/' . $hotels->id, 'Detail')); ?> |
-            <?php echo $this->tag->linkTo(array('/hotel/edit/' . $hotels->id, 'Edit')); ?> |
-            <?php echo $this->tag->linkTo(array('/hotel/delete/' . $hotels->id, 'Delete')); ?>
+            <?php echo $this->tag->linkTo(array('/user/reserve/' . $hotels->id, 'Reserve')); ?>
+            <?php } ?>
         </td>
     </tbody>
     <?php } ?>
