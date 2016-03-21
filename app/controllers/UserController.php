@@ -13,27 +13,11 @@ class UserController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
+        $this->view->user = User::findFirstById($this->session->get('auth-user')['id']);
 
 
     }
 
-    public function reserveAction($Id) {
-
-        //check existing hotel
-        $hotels = Hotels::findFirstById($Id);
-        if (!$hotels) {
-
-            $this->flash->error('Hotel not exist');
-            break;
-        }
-
-        if($this->request->isPost()) {
-
-
-        }
-
-
-    }
 
 }
 

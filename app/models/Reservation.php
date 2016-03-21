@@ -1,6 +1,6 @@
 <?php
 
-class Hotels extends \Phalcon\Mvc\Model
+class Reservation extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -11,40 +11,81 @@ class Hotels extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var integer
+     */
+    public $user_id;
+
+    /**
+     *
+     * @var integer
+     */
+    public $hotel_id;
+
+    /**
+     *
      * @var string
      */
-    public $name;
+    public $reservation_code;
 
     /**
      *
      * @var string
      */
-    public $address;
+    public $checkin_date;
+
+    /**
+     *
+     * @var string
+     */
+    public $checkout_date;
+
+    /**
+     *
+     * @var string
+     */
+    public $room_number;
+
+    /**
+     *
+     * @var string
+     */
+    public $room;
 
     /**
      *
      * @var integer
      */
-    public $zipcode;
-
-
-    /**
-     *
-     * @var integer
-     */
-    public $city_id;
+    public $adult;
 
     /**
      *
      * @var integer
      */
-    public $province_id;
+    public $amount;
 
     /**
      *
      * @var integer
      */
-    public $country_id;
+    public $night;
+
+    /**
+     *
+     * @var integer
+     */
+    public $status;
+
+    /**
+     *
+     * @var integer
+     */
+    public $checkin_status;
+
+    /**
+     *
+     * @var integer
+     */
+    public $checkout_status;
 
     /**
      * Returns table name mapped in the model.
@@ -53,24 +94,21 @@ class Hotels extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->hasMany("id", "Hotelsfacility", "hotel_id");
-        $this->hasMany("id", "HotelRoom", "hotel_id");
-        $this->belongsTo("city_id", "City", "id");
-        $this->belongsTo("province_id", "Province", "id");
-        $this->belongsTo("country_id", "Country", "id");
-
+        $this->belongsTo("hotel_id", "Hotels", "id");
+        $this->belongsTo("user_id", "User", "id");
+        $this->hasMany("id", "Transaction", "reservation_id");
     }
 
     public function getSource()
     {
-        return 'hotels';
+        return 'reservation';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Hotels[]
+     * @return Reservation[]
      */
     public static function find($parameters = null)
     {
@@ -81,7 +119,7 @@ class Hotels extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Hotels
+     * @return Reservation
      */
     public static function findFirst($parameters = null)
     {

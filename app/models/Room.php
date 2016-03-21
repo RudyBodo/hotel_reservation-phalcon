@@ -1,6 +1,6 @@
 <?php
 
-class Hotelsfacility extends \Phalcon\Mvc\Model
+class Room extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -11,44 +11,37 @@ class Hotelsfacility extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $hotel_id;
+    public $room;
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $facility_id;
-
-
-    /**
-     *
-     * @var integer
-     */
-    public $value;
+    public $nick;
 
     /**
      * Returns table name mapped in the model.
      *
      * @return string
      */
+
     public function initialize()
     {
-        $this->belongsTo("hotel_id", "Hotels", "id");
-        $this->belongsTo("facility_id", "Facility", "id");
+        $this->hasMany("id", "HotelRoom", "room_id");
     }
 
     public function getSource()
     {
-        return 'hotelsfacility';
+        return 'room';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Hotelsfacility[]
+     * @return Room[]
      */
     public static function find($parameters = null)
     {
@@ -59,7 +52,7 @@ class Hotelsfacility extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Hotelsfacility
+     * @return Room
      */
     public static function findFirst($parameters = null)
     {

@@ -1,6 +1,6 @@
 <?php
 
-class Hotelsfacility extends \Phalcon\Mvc\Model
+class Transaction extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -13,42 +13,40 @@ class Hotelsfacility extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $hotel_id;
+    public $reservation_id;
 
     /**
      *
      * @var integer
      */
-    public $facility_id;
-
-
-    /**
-     *
-     * @var integer
-     */
-    public $value;
+    public $total_price;
 
     /**
      * Returns table name mapped in the model.
      *
      * @return string
      */
+    public function beforeSave()
+    {
+        //sample generate transaction in local model
+
+    }
+
     public function initialize()
     {
-        $this->belongsTo("hotel_id", "Hotels", "id");
-        $this->belongsTo("facility_id", "Facility", "id");
+        $this->belongsTo("reservation_id", "Reservation", "id");
     }
 
     public function getSource()
     {
-        return 'hotelsfacility';
+        return 'transaction';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Hotelsfacility[]
+     * @return Transaction[]
      */
     public static function find($parameters = null)
     {
@@ -59,7 +57,7 @@ class Hotelsfacility extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Hotelsfacility
+     * @return Transaction
      */
     public static function findFirst($parameters = null)
     {

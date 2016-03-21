@@ -8,6 +8,7 @@
         <title>Hotel Reservation</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/fonts/css/font-awesome.css">
+
     </head>
     <body>
         <div class="container">

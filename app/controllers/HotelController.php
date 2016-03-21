@@ -27,6 +27,7 @@ class HotelController extends ControllerBase
         else {
 
             $this->view->detail = $hotel;
+            $this->view->room = HotelRoom::findByHotel_id($hotelsId);
         }
 
     }
@@ -50,7 +51,6 @@ class HotelController extends ControllerBase
                 'name' => $this->request->getPost('name'),
                 'address' => $this->request->getPost('address'),
                 'zipcode' => $this->request->getPost('zipcode'),
-                'price' => $this->request->getPost('price'),
                 'city_id' => $this->request->getPost('city'),
                 'province_id' => $this->request->getPost('province'),
                 'country_id' => $this->request->getPost('country')

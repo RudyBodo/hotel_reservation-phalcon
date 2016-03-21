@@ -18,8 +18,7 @@
                 {{ link_to('/hotel/edit/' ~ hotels.id, 'Edit') }} |
                 {{ link_to('/hotel/delete/' ~ hotels.id, 'Delete') }}
             {% else %}
-            {{ link_to('hotel/detail/' ~ hotels.id, 'Detail') }} |
-            {{ link_to('/user/reserve/' ~ hotels.id, 'Reserve') }}
+            {{ link_to('hotel/detail/' ~ hotels.id, 'Detail') }}
             {% endif %}
         </td>
     </tbody>

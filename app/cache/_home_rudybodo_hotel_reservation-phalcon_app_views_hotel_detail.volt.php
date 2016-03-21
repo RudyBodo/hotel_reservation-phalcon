@@ -1,4 +1,4 @@
-<h1>Detail Hotel</h1>
+<h1><?php echo $detail->name; ?></h1>
 
 <table class="table">
     <thead>
@@ -21,16 +21,25 @@
 
 </table>
 <br>
-<h1>Facility</h1>
+<h1>Room</h1>
 
 <table class="table">
     <thead>
     <tr>
         <th>Name</th>
-        <th>Value</th>
+        <th>Price</th>
+        <th>Action</th>
 
     </tr>
     </thead>
+
+    <?php foreach ($room as $rooms) { ?>
+    <tbody>
+    <td><?php echo $rooms->room->room; ?></td>
+    <td>Rp. <?php echo $rooms->price; ?></td>
+    <td><?php echo $this->tag->linkTo(array('/reserve/' . $detail->id, 'Pesan')); ?></td>
+    <?php } ?>
+    </tbody>
 
 
     <tbody>

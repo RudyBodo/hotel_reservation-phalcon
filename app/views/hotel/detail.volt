@@ -1,4 +1,4 @@
-<h1>Detail Hotel</h1>
+<h1>{{ detail.name }}</h1>
 
 <table class="table">
     <thead>
@@ -21,16 +21,25 @@
 
 </table>
 <br>
-<h1>Facility</h1>
+<h1>Room</h1>
 
 <table class="table">
     <thead>
     <tr>
         <th>Name</th>
-        <th>Value</th>
+        <th>Price</th>
+        <th>Action</th>
 
     </tr>
     </thead>
+
+    {% for rooms in room %}
+    <tbody>
+    <td>{{ rooms.room.room }}</td>
+    <td>Rp. {{ rooms.price }}</td>
+    <td>{{ link_to('/reserve/' ~ detail.id, 'Pesan') }}</td>
+    {% endfor %}
+    </tbody>
 
 
     <tbody>
