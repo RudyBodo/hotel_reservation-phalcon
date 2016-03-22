@@ -5,42 +5,35 @@ class ReservationController extends ControllerBase
 
     public function initialize()
     {
-        if(!$this->session->has('auth-user')) {
+        if (!$this->session->has('auth-user')) {
 
             $this->flash->error('You dont have permission');
-            break;
+            $this->response->redirect('/hotel');
         }
     }
 
     public function indexAction()
     {
-        $user_id = $this->session->get('auth-user')['id'];
+        $id = $this->request->getQuery("id");
 
-        $reservation = Reservation::findByUser_id($user_id);
+        if ($id) {
 
-        if(!$reservation) {
+            $data = Reservation::findFirst($id);
+            $this->view->id = $id;
 
-            $this->flash->error('You don have reservaton');
-            $this->response->redirect('/hotel');
+        } else {
+
+            $user_id = $this->session->get('auth-user')['id'];
+            $data = Reservation::findByUser_id($user_id);
         }
 
-        $this->view->reservation = $reservation;
+        if(!$data) {
 
-    }
-
-    public function detailAction($Id) {
-
-        //check existing reservation
-        $reservation = Reservation::findFirst($Id);
-
-        if(!$reservation) {
-
-            $this->flash->error('reservation not exist');
+            $this->flash->error("record not found");
+            return;
         }
 
-        $this->view->detail = $reservation;
+        $this->view->data = $data;
     }
-
-
 }
 

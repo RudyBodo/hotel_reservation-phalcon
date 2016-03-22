@@ -23,7 +23,8 @@ $di = new FactoryDefault();
  */
 $di->setShared('url', function () use ($config) {
     $url = new UrlResolver();
-    $url->setBaseUri($config->application->baseUri);
+    $url-> setBaseUri('/');
+    //$url->setBaseUri($config->application->baseUri);
 
     return $url;
 });
