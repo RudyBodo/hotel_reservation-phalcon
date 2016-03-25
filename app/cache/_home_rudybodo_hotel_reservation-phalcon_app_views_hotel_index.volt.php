@@ -1,3 +1,20 @@
+<div class="page-header">
+    <nav class="navbar navbar-default">
+        <div class="navbar-inner"></div>
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a href="/hotel"><span class="fa fa-home"></span>Home</a></li>
+                <li><a href="#"><span class="fa fa-connectdevelop"></span>Contact</a></li>
+                <li><a href="#"><span class="fa fa-hotel"></span>About</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="session/login"><span class="fa fa-sign-in"></span>Login</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
 <p><h1>List Hotel</h1></p>
 
 <p><a href="/hotel/add">Add Entry</a></p>

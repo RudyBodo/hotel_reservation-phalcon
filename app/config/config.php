@@ -4,12 +4,11 @@ defined('APP_PATH') || define('APP_PATH', realpath('.'));
 
 return new \Phalcon\Config(array(
     'database' => array(
-        'adapter'     => 'Mysql',
+        'adapter'     => 'Postgresql',
         'host'        => 'localhost',
-        'username'    => 'root',
-        'password'    => 'test123',
-        'dbname'      => 'hotelreservation',
-        'charset'     => 'utf8',
+        'username'    => 'postgres',
+        'password'    => 'rudybodo123',
+        'dbname'      => 'hotel_reservation'
     ),
     'application' => array(
         'controllersDir' => APP_PATH . '/app/controllers/',
