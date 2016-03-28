@@ -25,9 +25,9 @@ class HotelController extends ControllerBase
             $this->flash->error('Hotel not exist');
         }
         else {
-
             $this->view->detail = $hotel;
             $this->view->room = HotelRoom::findByHotel_id($hotelsId);
+            $this->view->facility = Hotelsfacility::findByHotel_id($hotelsId);
         }
 
     }

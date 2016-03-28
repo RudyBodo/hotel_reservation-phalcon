@@ -3,50 +3,78 @@
 class TestController extends \Phalcon\Mvc\Controller
 {
 
+    private function _registerSession($admin)
+    {
+        $this->session->set(
+            'auth-admin',
+            array(
+                'id' => $admin->id,
+                'username' => $admin->username
+            )
+        );
+    }
+
     public function indexAction()
     {
-        $reservation = new Reservation();
-        $hotel_room = HotelRoom::findFirstById(1);
+        $user = new User();
 
-        $reservation->assign(array(
-
-            'user_id' => $this->session->get('auth-user')['id'],
-            'hotel_id' => $hotel_room->hotel_id,
-            'reservation_code' => "INV-" . substr(rand(), 0, 6),
-            'checkin_date' => '2016-03-21',
-            'checkout_date' => '2016-03-22',
-            'room_number' => 'A21',
-            'room' => $hotel_room->Room->room,
-            'adult' => 1,
-            'amount' => 1,
-            'night' => 1,
+        $user->assign(array(
+            'username' => 'admin',
+            'fullname' => 'qwerty',
+            'email' => 'transkumba@gmail.com',
+            'address' => 'Jalan Pisang',
+            'phone_number' => '081223997987',
+            'password' => $this->security->hash(andirudini123),
         ));
 
-        //initialization price room
-        $price_room = $hotel_room->price;
-
-        //generate transaction
-        $transaction = new Transaction();
-        $transaction->assign(array(
-            'reservation_id' => $reservationId,
-            'total_price' => ($reservation->adult * $price_room) + ($reservation->amount * $price_room) +
-                ($reservation->night * $price_room)
+        $userRoles = new UserRoles();
+        $userRoles->assign(array(
+            'user_id' => '$userId',
+            'role_id' => 1
         ));
 
-        //save both table related
-        $reservation->Transaction = $transaction;
+        $user->UserRoles = $userRoles;
 
-        if(!$reservation->save()) {
+        if (!$user->save()) {
 
-            $this->flash->error($reservation->getMessages());
+            $this->flash->error($user->getMessages());
+        } else {
+
+            $this->flash->success("User Registration Success");
+        }
+    }
+
+    public function loginAction()
+    {
+        $username = 'admin';
+        $password = andirudini123;
+
+        //check existing user
+        $admin = User::findFirstByUsername($username);
+
+        $check_hash = $this->security->checkHash($password, $admin->password);
+        $check_role = UserRoles::findFirstByUser_id($admin->id);
+
+        if($admin) {
+            //check hash password
+            if($check_hash) {
+
+                $this->flash->success('password hash check success');
+                //check roles
+                if($check_role->role_id == 1)
+
+                    $this->_registerSession($admin);
+                    $this->response->redirect('admin');
+            }
+            else {
+                $this->flash->error('wrong username and password');
+            }
         }
         else {
-
-            $this->flash->success('Reservation Create Was Successfully');
+            $this->flash->error('username not exist');
         }
 
     }
-
 }
 
 

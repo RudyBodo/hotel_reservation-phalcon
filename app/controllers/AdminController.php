@@ -2,6 +2,10 @@
 
 class AdminController extends \Phalcon\Mvc\Controller
 {
+    public function validateAction() {
+
+        $this->session->has('auth-admin');
+    }
 
     private function _registerSession($admin)
     {
@@ -14,13 +18,18 @@ class AdminController extends \Phalcon\Mvc\Controller
         );
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
+        if(!$this->session->has('auth-admin')) {
+
+            $this->response->redirect('admin/login');
+        }
 
     }
 
-
     public function loginAction()
     {
+
         if($this->request->isPost()) {
 
             $username = $this->request->getPost('username');
@@ -29,28 +38,36 @@ class AdminController extends \Phalcon\Mvc\Controller
             //check existing user
             $admin = User::findFirstByUsername($username);
 
-            if($admin != false) {
+            $check_hash = $this->security->checkHash($password, $admin->password);
+            $check_role = UserRoles::findFirstByUser_id($admin->id);
 
-                //check hash password and Role
-                if($this->security->checkHash($password, $admin->password)
-                    AND ($this->$admin->UserRoles->role_id == 1)) {
+            if($admin) {
 
-                    $this->_registerSession($admin);
-                    $this->response->redirect('admin');
+                //check hash password
+                if($check_hash) {
+
+                    //check roles
+                    if($check_role->role_id == 1) {
+                        $this->_registerSession($admin);
+                        $this->response->redirect('admin');
+                    }
                 }
                 else {
-                    $this->flash->error('Check Admin Failure');
+                    $this->flash->error('wrong username and password');
                 }
             }
-
             else {
-                $this->flash->error('Admin Not Exist');
+                $this->flash->error('username not exist');
             }
         }
-
     }
 
-    public function registAction() {
+    public function view_userAction(){
+
+        $this->view->user = User::find();
+    }
+
+    public function addAction() {
 
         if($this->request->isPost()) {
 
@@ -68,7 +85,7 @@ class AdminController extends \Phalcon\Mvc\Controller
             $userRoles = new UserRoles();
             $userRoles->assign(array(
                 'user_id' => '$userId',
-                'role_id' => 1
+                'role_id' => 3
             ));
 
             $user->UserRoles = $userRoles;

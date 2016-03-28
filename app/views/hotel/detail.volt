@@ -18,8 +18,8 @@
     <td>{{ detail.province.province }}</td>
     <td>{{ detail.country.country }}</td>
      </tbody>
-
 </table>
+
 <br>
 <h1>Room</h1>
 
@@ -32,19 +32,29 @@
 
     </tr>
     </thead>
-
     {% for rooms in room %}
     <tbody>
     <td>{{ rooms.room.room }}</td>
     <td>Rp. {{ rooms.price }}</td>
-    <td>{{ link_to('/reserve/' ~ detail.id, 'Pesan') }}</td>
+    <td>{{ link_to('/reservation/add/' ~ detail.id, 'Pesan') }}</td>
     {% endfor %}
     </tbody>
+</table>
 
+<br>
+<h1>Facility</h1>
 
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Amount</th>
+    </tr>
+    </thead>
+    {% for hotelsfacility in facility %}
     <tbody>
-    <td></td>
-    <td></td>
+    <td>{{ hotelsfacility.facility.name }}</td>
+    <td>{{ hotelsfacility.value }}</td>
     </tbody>
-
+    {% endfor %}
 </table>

@@ -18,8 +18,8 @@
     <td><?php echo $detail->province->province; ?></td>
     <td><?php echo $detail->country->country; ?></td>
      </tbody>
-
 </table>
+
 <br>
 <h1>Room</h1>
 
@@ -32,19 +32,29 @@
 
     </tr>
     </thead>
-
     <?php foreach ($room as $rooms) { ?>
     <tbody>
     <td><?php echo $rooms->room->room; ?></td>
     <td>Rp. <?php echo $rooms->price; ?></td>
-    <td><?php echo $this->tag->linkTo(array('/reserve/' . $detail->id, 'Pesan')); ?></td>
+    <td><?php echo $this->tag->linkTo(array('/reservation/add/' . $detail->id, 'Pesan')); ?></td>
     <?php } ?>
     </tbody>
+</table>
 
+<br>
+<h1>Facility</h1>
 
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Amount</th>
+    </tr>
+    </thead>
+    <?php foreach ($facility as $hotelsfacility) { ?>
     <tbody>
-    <td></td>
-    <td></td>
+    <td><?php echo $hotelsfacility->facility->name; ?></td>
+    <td><?php echo $hotelsfacility->value; ?></td>
     </tbody>
-
+    <?php } ?>
 </table>

@@ -16,40 +16,42 @@ class SessionController extends ControllerBase
 
     public function signupAction()
     {
+        $form = new SignUpForm();
 
         if($this->request->isPost()) {
 
-            $user = new User();
+            if($form->isValid($this->request->getPost()) != false) {
 
-            $user->assign(array(
-                'username' => $this->request->getPost('username'),
-                'fullname' => $this->request->getPost('fullname'),
-                'email' => $this->request->getPost('email'),
-                'address' => $this->request->getPost('address'),
-                'phone_number' => $this->request->getPost('phone_number'),
-                'password' => $this->security->hash($this->request->getPost('password')),
-            ));
+                $user = new User();
 
-            $userRoles = new UserRoles();
-            $userRoles->assign(array(
-                'user_id' => '$userId',
-                'role_id' => 2
-            ));
+                $user->assign(array(
+                    'username' => $this->request->getPost('username'),
+                    'fullname' => $this->request->getPost('fullname'),
+                    'email' => $this->request->getPost('email'),
+                    'address' => $this->request->getPost('address'),
+                    'phone_number' => $this->request->getPost('phone_number'),
+                    'password' => $this->security->hash($this->request->getPost('password')),
+                ));
 
-            $user->UserRoles = $userRoles;
+                $userRoles = new UserRoles();
+                $userRoles->assign(array(
+                    'user_id' => '$userId',
+                    'role_id' => 2
+                ));
 
-            if(!$user->save()) {
+                $user->UserRoles = $userRoles;
 
-                $this->flash->error($user->getMessages());
-            }
-            else {
+                if (!$user->save()) {
 
-                $this->flash->success("User Registration Success");
+                    $this->view->error = $user->getMessages($user);
+                } else {
 
-                return $this->response->redirect('session/login');
+                    $this->view->msg = "Registration Success";
+                }
             }
         }
 
+        $this->view->form = $form;
     }
 
     public function loginAction()
@@ -72,6 +74,7 @@ class SessionController extends ControllerBase
                     return $this->response->redirect('user');
                 }
                 else {
+
                     $this->flash->error('Wrong username and password');
                 }
             }
