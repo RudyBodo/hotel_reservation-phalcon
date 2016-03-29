@@ -29,37 +29,40 @@ class AdminController extends \Phalcon\Mvc\Controller
 
     public function loginAction()
     {
+        $form = new LoginForm();
 
         if($this->request->isPost()) {
 
-            $username = $this->request->getPost('username');
-            $password = $this->request->getPost('password');
+            if($form->isValid($this->request->getPost()) != false) {
 
-            //check existing user
-            $admin = User::findFirstByUsername($username);
+                $username = $this->request->getPost('username');
+                $password = $this->request->getPost('password');
 
-            $check_hash = $this->security->checkHash($password, $admin->password);
-            $check_role = UserRoles::findFirstByUser_id($admin->id);
+                //check existing user
+                $admin = User::findFirstByUsername($username);
 
-            if($admin) {
+                $check_hash = $this->security->checkHash($password, $admin->password);
+                $check_role = UserRoles::findFirstByUser_id($admin->id);
 
-                //check hash password
-                if($check_hash) {
+                if ($admin) {
 
-                    //check roles
-                    if($check_role->role_id == 1) {
-                        $this->_registerSession($admin);
-                        $this->response->redirect('admin');
+                    //check hash password
+                    if ($check_hash) {
+
+                        //check roles
+                        if ($check_role->role_id == 1) {
+                            $this->_registerSession($admin);
+                            $this->response->redirect('admin');
+                        }
+                    } else {
+                        $this->view->error = 'wrong username or password';
                     }
+                } else {
+                    $this->view->error = 'username not exist';
                 }
-                else {
-                    $this->flash->error('wrong username and password');
-                }
-            }
-            else {
-                $this->flash->error('username not exist');
             }
         }
+        $this->view->form = $form;
     }
 
     public function view_userAction(){
@@ -96,7 +99,7 @@ class AdminController extends \Phalcon\Mvc\Controller
             }
             else {
 
-                $this->flash->success("User Registration Success");
+                $this->view->msg = 'Add user was successfully';
 
                 return $this->response->redirect('session/login');
             }

@@ -2,7 +2,7 @@
 
 {% if msg %}
 <div class="alert alert-success">
-    <strong>Success!</strong>{{ msg }} Please <a href="session/login">Login</a>
+    <strong>Success!</strong> {{ msg }} Please <a href="session/login">Login</a>
 </div>
 {% endif %}
 <form class="horizontal" method="post">

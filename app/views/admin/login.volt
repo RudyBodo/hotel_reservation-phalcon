@@ -6,29 +6,32 @@
         <div class="col-sm-12 col-md-4 col-md-offset-4">
             <div class="login-box well">
                 <i class="fa fa-user-secret fa-4x"></i>
-                <h2>Admin Login</h2>
-               <form method="post">
-                   <div class="input-group">
-                       <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                       <input type="text" class="form-control" name="username" placeholder="Enter User" required/>
-                   </div>
+                <h2>Login</h2>
+                {% if error %}
+                <div class="alert alert-danger">
+                    <strong>Error!! </strong>{{ error }}
+                </div>
+                {% endif %}
+                <form method="post">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        {{ form.render('username',["class" : "form-control"]) }}
+                    </div>
+                    {{ form.messages('username') }}
 
-                   <br>
+                    <br>
 
-                   <div class="input-group">
-                       <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                       <input type="password" class="form-control" name="password" placeholder="Password" required/>
-                   </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        {{ form.render('password',["class" : "form-control"]) }}
+                    </div>
+                    {{ form.messages('password') }}
 
-                   <br>
-                   <button class="btn btn-primary"><i class="fa fa-sign-in"></i>Login</button>
-
-               </form>
+                    <br>
+                    <button class="btn btn-primary"><i class="fa fa-sign-in"></i>Login</button>
+                </form>
             </div>
         </div>
-
-
     </div>
-
 </div>
 

@@ -1,39 +1,40 @@
 <br>
-
-<div class="container">
+<br>
+<br>
+<div class="container" align="center">
     <div class="row">
-        <div class='col-md-3'></div>
-        <div class="col-md-6">
+        <div class="col-sm-12 col-md-4 col-md-offset-4">
             <div class="login-box well">
+                <i class="fa fa-users fa-4x"></i>
+                <h2>Login</h2>
+                {% if error %}
+                <div class="alert alert-danger">
+                <strong>Error!! </strong>{{ error }}
+                </div>
+                {% endif %}
                 <form method="post">
-                    <legend align="center">Hotel Reservation</legend>
-                    <div class="form-group">
-                        <label for="username-email">Username</label>
-                        <input name="username" placeholder="Username" type="text" class="form-control" required/>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input name="password" placeholder="Password" type="password" class="form-control" />
-                    </div>
                     <div class="input-group">
-                        <div class="checkbox">
-                            <label>
-                                <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
-                            </label>
-                        </div>
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        {{ form.render('username',["class" : "form-control"]) }}
                     </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-default btn-login-submit btn-block m-t-md" value="Login" />
-                    </div>
-                    <span class='text-center'><a href="/resetting/request" class="text-sm">Forgot Password?</a></span>
-                    <div class="form-group">
-                        <p class="text-center m-t-xs text-sm">Do not have an account?</p>
-                        <a href="signup/" class="btn btn-default btn-block m-t-md">Create an account</a>
-                    </div>
-                </form>
+                    {{ form.messages('username') }}
 
+                    <br>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        {{ form.render('password',["class" : "form-control"]) }}
+                    </div>
+                    {{ form.messages('password') }}
+
+                    <br>
+                    <button class="btn btn-primary"><i class="fa fa-sign-in"></i>Login</button>
+                </form>
+            </div>
+            <div class="-align-center">
+                <a href="signup/">Create Account</a>
             </div>
         </div>
-        <div class='col-md-3'></div>
     </div>
 </div>
+

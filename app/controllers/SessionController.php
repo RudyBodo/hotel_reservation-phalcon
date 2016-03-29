@@ -46,7 +46,7 @@ class SessionController extends ControllerBase
                     $this->view->error = $user->getMessages($user);
                 } else {
 
-                    $this->view->msg = "Registration Success";
+                    $this->view->msg ="Registration Success";
                 }
             }
         }
@@ -56,32 +56,36 @@ class SessionController extends ControllerBase
 
     public function loginAction()
     {
+        $form = new LoginForm();
+
         if($this->request->isPost()) {
 
-            $username = $this->request->getPost('username');
-            $password = $this->request->getPost('password');
+            if($form->isValid($this->request->getPost()) != false) {
 
-            //check existing user and hash password
-            $user = User::findFirstByUsername($username);
+                $username = $this->request->getPost('username');
+                $password = $this->request->getPost('password');
 
-            if($user) {
+                //check existing user and hash password
+                $user = User::findFirstByUsername($username);
 
-                if($this->security->checkHash($password, $user->password)) {
+                if ($user) {
 
-                    //create session to user
-                    $this->_registerSession($user);
-                    $this->flash->success('Login Success');
-                    return $this->response->redirect('user');
+                    if ($this->security->checkHash($password, $user->password)) {
+
+                        //create session to user
+                        $this->_registerSession($user);
+                        $this->view->msg = "Login Success";
+                        return $this->response->redirect('user');
+                    } else {
+
+                        $this->view->error = 'Wrong username or password';
+                    }
+                } else {
+                    $this->view->error = "User not exist";
                 }
-                else {
-
-                    $this->flash->error('Wrong username and password');
-                }
-            }
-            else {
-                $this->flash->error('User not exist');
             }
         }
+        $this->view->form = $form;
     }
 
     public function logoutAction()

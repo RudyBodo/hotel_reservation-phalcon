@@ -1,4 +1,9 @@
 <p><h1>List Hotel</h1></p>
+{% if msg %}
+<div class="alert alert-success">
+    <strong>Success</strong>{{ msg }}
+</div>
+{% endif %}
 <table class="table">
     <thead>
         <tr>
