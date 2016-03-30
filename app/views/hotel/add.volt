@@ -50,8 +50,19 @@
         {{ form.messages('country') }}
     </div>
 
-    <div class="">
+    <div class="align -align-left">
         <h2>Hotels Facility</h2>
+    </div>
+
+    <div class="form-group">
+        {{ form.label('facility') }}
+        {{ form.render('facility', ["class" : "form-control"]) }}
+        {{ form.messages('facility') }}
+    </div>
+
+    <div class="form-group">
+        {{ form.render('amount', ["class" : "form-control"]) }}
+        {{ form.messages('amount') }}
     </div>
 
 

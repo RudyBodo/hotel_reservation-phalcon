@@ -54,6 +54,9 @@ class AdminController extends \Phalcon\Mvc\Controller
                             $this->_registerSession($admin);
                             $this->response->redirect('admin');
                         }
+                        else {
+                            $this->view->error = 'User not admin';
+                        }
                     } else {
                         $this->view->error = 'wrong username or password';
                     }

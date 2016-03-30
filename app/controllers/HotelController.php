@@ -54,22 +54,22 @@ class HotelController extends ControllerBase
                     'country_id' => $this->request->getPost('country')
                 ));
 
-                /*$hotelfacility = new Hotelsfacility();
+                $hotelfacility= new Hotelsfacility();
 
                 $hotelfacility->assign(array(
 
                     'hotel_id' => $hotel->id,
                     'facility_id' => $this->request->getPost('facility'),
-                    'value' => $this->request->getPost('value')
+                    'value' => $this->request->getPost('amount')
                 ));
 
-                $hotel->hotelsfacility = $hotelfacility;*/
+                $hotel->hotelsfacility = $hotelfacility;
 
                 //check_existing hotels
                 $check_hotels = Hotels::findByName($hotel->name);
                 if(!$check_hotels) {
                     $this->view->error = 'Hotel already exist';
-                    return false;
+                    return;
                 }
 
                 if (!$hotel->save()) {
@@ -147,8 +147,10 @@ class HotelController extends ControllerBase
         }
 
         $hotel = Hotels::findFirstById($Id);
+        $hotel->Hotelsfacility = $hotel;
+
         if(!$hotel->delete()){
-            $this->flash->error($hotel->getMessages());
+            $this->view->error = 'Delete hotels not successfully';
         }
         else{
             $this->view->msg = 'The Hotel Deleted Successfully';

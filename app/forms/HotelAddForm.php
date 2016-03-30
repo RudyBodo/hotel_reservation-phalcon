@@ -86,6 +86,28 @@ class HotelAddForm extends Form
         $country->setLabel('Country');
         $this->add($country);
 
+        //field facility
+        $facility = new Select('facility', Facility::find(), array(
+            'using' => array(
+                'id',
+                'name'
+            )
+        ));
+        $facility->setLabel('Facility');
+        $this->add($facility);
+
+
+        //field Value facility
+        $amount = new Text('amount', array(
+            'placeholder' => 'Enter Value Facility'
+        ));
+        $amount->setLabel('Value');
+        $amount->addValidators(array(
+            new PresenceOf(array(
+                'message' => 'Value is required'
+            ))
+        ));
+        $this->add($amount);
     }
 
     public function  messages($name)
