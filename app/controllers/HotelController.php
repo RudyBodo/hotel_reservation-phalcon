@@ -32,7 +32,6 @@ class HotelController extends ControllerBase
         $check_session = $this->session->has('auth-admin');
 
         if(!$check_session) {
-
             $this->flash->error('You dont have permission');
         }
 
@@ -54,35 +53,29 @@ class HotelController extends ControllerBase
                     'country_id' => $this->request->getPost('country')
                 ));
 
-                $hotelfacility= new Hotelsfacility();
+                $hotelfacility = new Hotelsfacility();
 
                 $hotelfacility->assign(array(
-
                     'hotel_id' => $hotel->id,
-                    'facility_id' => $this->request->getPost('facility'),
-                    'value' => $this->request->getPost('amount')
+                    'facility_id' => $this->request->getPost('facility_id'),
+                    'amount' => $this->request->getPost('amount')
                 ));
+                file_get_contents("/tmp/d.txt", print_r($this->request->getPost(), true));
 
                 $hotel->hotelsfacility = $hotelfacility;
-
-                //check_existing hotels
-                $check_hotels = Hotels::findByName($hotel->name);
-                if(!$check_hotels) {
-                    $this->view->error = 'Hotel already exist';
-                    return;
-                }
 
                 if (!$hotel->save()) {
                     $this->view->err_save = $hotel->getMessages();
 
                 } else {
                     $this->view->msg = 'Hotel was create successfully';
-
                 }
+
             }
         }
 
         $this->view->form = $form;
+        $this->view->facility = Facility::find();
     }
 
 
@@ -112,9 +105,9 @@ class HotelController extends ControllerBase
 
             $hotelfacility->assign(array(
 
-                'hotel_id' => $hotelsId,
+                'hotel_id' => $hotel->id,
                 'facility_id' => $this->request->getPost('facility'),
-                'value' => $this->request->getPost('value')
+                'amount' => $this->request->getPost('amount')
             ));
 
             $hotel->hotelsfacility = $hotelfacility;
@@ -146,14 +139,15 @@ class HotelController extends ControllerBase
             return $this->forward('/hotel');
         }
 
-        $hotel = Hotels::findFirstById($Id);
-        $hotel->Hotelsfacility = $hotel;
+        $hotel = Hotels::findById($Id);
+        $hotel->Hotelsfacility;
 
         if(!$hotel->delete()){
             $this->view->error = 'Delete hotels not successfully';
         }
         else{
             $this->view->msg = 'The Hotel Deleted Successfully';
+            $this->response->redirect('hotel');
 
         }
     }

@@ -16,32 +16,7 @@ class TestController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        $user = new User();
 
-        $user->assign(array(
-            'username' => 'admin',
-            'fullname' => 'qwerty',
-            'email' => 'transkumba@gmail.com',
-            'address' => 'Jalan Pisang',
-            'phone_number' => '081223997987',
-            'password' => $this->security->hash(andirudini123),
-        ));
-
-        $userRoles = new UserRoles();
-        $userRoles->assign(array(
-            'user_id' => '$userId',
-            'role_id' => 1
-        ));
-
-        $user->UserRoles = $userRoles;
-
-        if (!$user->save()) {
-
-            $this->flash->error($user->getMessages());
-        } else {
-
-            $this->flash->success("User Registration Success");
-        }
     }
 
     public function loginAction()

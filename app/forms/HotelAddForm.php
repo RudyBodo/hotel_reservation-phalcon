@@ -87,14 +87,14 @@ class HotelAddForm extends Form
         $this->add($country);
 
         //field facility
-        $facility = new Select('facility', Facility::find(), array(
+        $facility_id = new Select('facility_id', Facility::find(), array(
             'using' => array(
                 'id',
                 'name'
             )
         ));
-        $facility->setLabel('Facility');
-        $this->add($facility);
+        $facility_id->setLabel('Facility');
+        $this->add($facility_id);
 
 
         //field Value facility

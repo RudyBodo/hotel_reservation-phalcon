@@ -54,7 +54,7 @@
     {% for hotelsfacility in facility %}
     <tbody>
     <td>{{ hotelsfacility.facility.name }}</td>
-    <td>{{ hotelsfacility.value }}</td>
+    <td>{{ hotelsfacility.amount }}</td>
     </tbody>
     {% endfor %}
 </table>

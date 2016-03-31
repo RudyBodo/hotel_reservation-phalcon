@@ -26,7 +26,7 @@ class Hotelsfacility extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $value;
+    public $amount;
 
     /**
      * Returns table name mapped in the model.
