@@ -34,7 +34,7 @@
     </thead>
     {% for rooms in room %}
     <tbody>
-    <td>{{ rooms.room.room }}</td>
+    <td>{{ rooms.room }}</td>
     <td>Rp. {{ rooms.price }}</td>
     <td>{{ link_to('/reservation/add/' ~ detail.id, 'Pesan') }}</td>
     {% endfor %}

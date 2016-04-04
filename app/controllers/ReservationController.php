@@ -87,9 +87,8 @@ class ReservationController extends ControllerBase
             }
             else {
 
-                $this->flash->success('Reservation Create Was Successfully');
+                $this->view->msg ='Reservation Create Was Successfully';
             }
-
         }
         $this->view->room = $hotel_room;
     }

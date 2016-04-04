@@ -53,16 +53,41 @@ class HotelController extends ControllerBase
                     'country_id' => $this->request->getPost('country')
                 ));
 
-                $hotelfacility = new Hotelsfacility();
+                $facility = $this->request->getPost('facility_id');
+                $amount = $this->request->getPost('amount');
 
-                $hotelfacility->assign(array(
-                    'hotel_id' => $hotel->id,
-                    'facility_id' => $this->request->getPost('facility_id'),
-                    'amount' => $this->request->getPost('amount')
-                ));
-                file_get_contents("/tmp/d.txt", print_r($this->request->getPost(), true));
+                $facilities = array_map(function($f, $a) use ($hotel){
 
-                $hotel->hotelsfacility = $hotelfacility;
+                    $hotelFacility = new Hotelsfacility();
+                    $hotelFacility->hotel_id = $hotel->id;
+                    $hotelFacility->facility_id = $f;
+                    $hotelFacility->amount = $a;
+                    $hotelFacility->save();
+
+                    return $hotelFacility;
+
+                }, $facility, $amount);
+
+                $rooms = $this->request->getPost('room');
+                $price = $this->request->getPost('price');
+
+                $hotelroom = array_map(function($r, $p) use ($hotel) {
+
+                    $room_hotel = new HotelRoom();
+                    $room_hotel->hotel_id = $hotel->id;
+                    $room_hotel->room = $r;
+                    $room_hotel->price = $p;
+                    $room_hotel->save();
+
+                    return $room_hotel;
+
+                }, $rooms, $price);
+
+
+                //file_put_contents("/tmp/d.txt", print_r($this->request->getPost(), true), FILE_APPEND);
+
+                $hotel->Hotelsfacility = $facilities;
+                $hotel->HotelRoom = $hotelroom;
 
                 if (!$hotel->save()) {
                     $this->view->err_save = $hotel->getMessages();
@@ -70,7 +95,6 @@ class HotelController extends ControllerBase
                 } else {
                     $this->view->msg = 'Hotel was create successfully';
                 }
-
             }
         }
 
@@ -82,50 +106,82 @@ class HotelController extends ControllerBase
     public function editAction($Id)
     {
 
-        if(!$this->session->has('auth-admin')) {
+        $check_session = $this->session->has('auth-admin');
 
+        if(!$check_session) {
             $this->flash->error('You dont have permission');
-            return $this->forward('/hotel');
         }
 
         $hotel = Hotels::findFirstById($Id);
+        if(!$hotel) {
+            $this->view->error = 'Id Required';
+        }
 
-        if($this->request->isPost()){
-            $hotel->assign(array(
-                'name' => $this->request->getPost('name'),
-                'address' => $this->request->getPost('address'),
-                'zipcode' => $this->request->getPost('zipcode'),
-                'price' => $this->request->getPost('price'),
-                'city_id' => $this->request->getPost('city'),
-                'province_id' => $this->request->getPost('province'),
-                'country_id' => $this->request->getPost('country')
-            ));
+        $form = new HotelAddForm();
 
-            $hotelfacility = new Hotelsfacility();
+        if($this->request->isPost()) {
 
-            $hotelfacility->assign(array(
+            if ($form->isValid($this->request->getPost()) != false) {
 
-                'hotel_id' => $hotel->id,
-                'facility_id' => $this->request->getPost('facility'),
-                'amount' => $this->request->getPost('amount')
-            ));
+                $hotel = new Hotels();
 
-            $hotel->hotelsfacility = $hotelfacility;
+                $hotel->assign(array(
 
-            if(!$hotel->save()){
+                    'name' => $this->request->getPost('name'),
+                    'address' => $this->request->getPost('address'),
+                    'zipcode' => $this->request->getPost('zipcode'),
+                    'city_id' => $this->request->getPost('city'),
+                    'province_id' => $this->request->getPost('province'),
+                    'country_id' => $this->request->getPost('country')
+                ));
 
-                $this->flash->error($hotel->getMessages());
-            }
-            else{
+                $facility = $this->request->getPost('facility_id');
+                $amount = $this->request->getPost('amount');
 
-                $this->view->msg = 'update hotel was successfully';
-                return $this->response->redirect("/hotel/flash");
+                $facilities = array_map(function($f, $a) use ($hotel){
+
+                    $hotelFacility = new Hotelsfacility();
+                    $hotelFacility->hotel_id = $hotel->id;
+                    $hotelFacility->facility_id = $f;
+                    $hotelFacility->amount = $a;
+                    $hotelFacility->save();
+
+                    return $hotelFacility;
+
+                }, $facility, $amount);
+
+                $rooms = $this->request->getPost('room');
+                $price = $this->request->getPost('price');
+
+                $hotelroom = array_map(function($r, $p) use ($hotel) {
+
+                    $room_hotel = new HotelRoom();
+                    $room_hotel->hotel_id = $hotel->id;
+                    $room_hotel->room = $r;
+                    $room_hotel->price = $p;
+                    $room_hotel->save();
+
+                    return $room_hotel;
+
+                }, $rooms, $price);
+
+
+                //file_put_contents("/tmp/d.txt", print_r($this->request->getPost(), true), FILE_APPEND);
+
+                $hotel->Hotelsfacility = $facilities;
+                $hotel->HotelRoom = $hotelroom;
+
+                if (!$hotel->save()) {
+                    $this->view->err_save = $hotel->getMessages();
+
+                } else {
+                    $this->view->msg = 'Hotel was create successfully';
+                }
             }
         }
 
-        $this->view->city = City::find();
-        $this->view->provinces = Province::find();
-        $this->view->country = Country::find();
+        $this->view->form = $form;
+        $this->view->facility = Facility::find();
 
     }
 

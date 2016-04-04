@@ -98,7 +98,7 @@ class HotelAddForm extends Form
 
 
         //field Value facility
-        $amount = new Text('amount', array(
+        $amount = new Text('amount[]', array(
             'placeholder' => 'Enter Value Facility'
         ));
         $amount->setLabel('Value');
@@ -108,6 +108,28 @@ class HotelAddForm extends Form
             ))
         ));
         $this->add($amount);
+
+        $room = new Text('room[]', array(
+        'placeholder' => "Room name"
+        ));
+        $room->addValidators(array(
+            new PresenceOf(array(
+                'message' => 'Room is required'
+            ))
+        ));
+        $this->add($room);
+
+        $price = new Text('price[]', array(
+            'placeholder' => "Price Rooms"
+        ));
+        $price->addValidators(array(
+            new PresenceOf(array(
+                'message' => 'Price is required'
+            ))
+        ));
+        $this->add($price);
+
+
     }
 
     public function  messages($name)

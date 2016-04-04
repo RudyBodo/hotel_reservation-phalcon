@@ -17,9 +17,9 @@ class HotelRoom extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $room_id;
+    public $room;
 
     /**
      * Returns table name mapped in the model.
@@ -31,7 +31,6 @@ class HotelRoom extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->belongsTo("hotel_id", "Hotels", "id");
-        $this->belongsTo("room_id", "Room", "id");
     }
 
     public function getSource()
