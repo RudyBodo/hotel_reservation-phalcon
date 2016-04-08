@@ -1,6 +1,11 @@
 <br>
 <br>
 <br>
+{% if error %}
+<div class="alert alert-danger">
+    <strong>Error!!</strong> {{ error }}
+</div>
+{% endif %}
 <div class="container" align="center">
     <div class="row">
         <div class="col-sm-12 col-md-4 col-md-offset-4">
@@ -11,7 +16,8 @@
                     <label>Check In</label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="date" class="form-control" name="checkin" placeholder="Check In" required/>
+                        {{ form.render('checkin', ["class" : "form-control", "id" : "dpd1"]) }}
+                        {{ form.messages('checkin') }}
                     </div>
 
                     <br>
@@ -19,18 +25,8 @@
                     <label>Check Out</label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="date" class="form-control" name="checkout" placeholder="Check Out" required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <select name="amount" class="form-control" id="adult">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
+                        {{ form.render('checkout', ["class" : "form-control", "id" : "dpd2"]) }}
+                        {{ form.messages('checkout') }}
                     </div>
 
                     <div class="form-group">
@@ -59,7 +55,7 @@
                         <label for="room_number">Room</label>
                         <select name="room" class="form-control" id="adult">
                             {% for rooms in room %}
-                            <option value="{{rooms.room.room}}">{{ rooms.room.room }}</option>
+                            <option value="{{rooms.room}}">{{ rooms.room }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -85,4 +81,3 @@
     </div>
 
 </div>
-

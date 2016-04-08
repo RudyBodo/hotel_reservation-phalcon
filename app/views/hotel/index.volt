@@ -37,6 +37,12 @@
     <strong>Success</strong>{{ msg }}
 </div>
 {% endif %}
+
+{% if error %}
+<div class="alert alert-error">
+    <strong>Error!!</strong>{{ error }}
+</div>
+{% endif %}
 <table class="table">
     <thead>
         <tr>
@@ -60,5 +66,3 @@
     </tbody>
     {% endfor %}
 </table>
-
-

@@ -16,7 +16,16 @@ class TestController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
+        $form = new testForm;
+        if($this->request->isPost()) {
 
+            if($form->isValid($this->request->getPost()) != false) {
+
+                $checkin = $this->request->getPost('checkin');
+                $checkout = $this->request->getPost('checkout');
+            }
+        }
+        $this->view->form = $form;
     }
 
     public function loginAction()
@@ -51,7 +60,3 @@ class TestController extends \Phalcon\Mvc\Controller
 
     }
 }
-
-
-
-

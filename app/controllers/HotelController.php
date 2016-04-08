@@ -15,8 +15,7 @@ class HotelController extends ControllerBase
         //check existing hotel
         $hotel = Hotels::findFirst($hotelsId);
         if(!$hotel) {
-
-            $this->view->error('Hotel not exist');
+            $this->view->error = 'Hotel not exist';
         }
         else {
             $this->view->detail = $hotel;
@@ -32,7 +31,9 @@ class HotelController extends ControllerBase
         $check_session = $this->session->has('auth-admin');
 
         if(!$check_session) {
-            $this->flash->error('You dont have permission');
+            $this->view->error = 'You dont have permisson';
+            return $this->response->redirect('hotel');
+
         }
 
         $form = new HotelAddForm();
@@ -44,6 +45,7 @@ class HotelController extends ControllerBase
                 $hotel = new Hotels();
 
                 $hotel->assign(array(
+
 
                     'name' => $this->request->getPost('name'),
                     'address' => $this->request->getPost('address'),
@@ -109,7 +111,8 @@ class HotelController extends ControllerBase
         $check_session = $this->session->has('auth-admin');
 
         if(!$check_session) {
-            $this->flash->error('You dont have permission');
+            $this->view->error = 'You dont have permission';
+            return $this->response->redirect('hotel');
         }
 
         $hotel = Hotels::findFirstById($Id);
@@ -210,4 +213,3 @@ class HotelController extends ControllerBase
 
 
 }
-

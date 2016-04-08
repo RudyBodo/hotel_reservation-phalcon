@@ -29,69 +29,70 @@ class ReservationController extends ControllerBase
 
         if(!$data) {
 
-            $this->flash->error("record not found");
+            $this->view->msg = 'Record not found';
             return;
         }
 
         $this->view->data = $data;
     }
 
-    public function addAction($Id)
+    public function addAction($id)
     {
-        //check exsiting hotel
-        $hotel = Hotels::findFirst($Id);
-
+        $hotel = Hotels::findFirstById($id);
         if(!$hotel) {
-            $this->flash->error($hotel->getMessages());
-            break;
+
+            $this->view->error = 'Hotel not found';
+            return;
         }
 
         $hotel_room = HotelRoom::findByHotel_id($hotel->id);
 
+        $form = new ReservationForm;
 
         if ($this->request->isPost()) {
 
-            $reservation = new Reservation();
+            if ($form->isValid($this->request->getPost()) != false) {
 
-            $reservation->assign(array(
+                $reservation = new Reservation();
 
-                'user_id' => $this->session->get('auth-user')['id'],
-                'hotel_id' => $hotel->id,
-                'reservation_code' => "INV-" . substr(rand(), 0, 6),
-                'checkin_date' => $this->request->getPost('checkin'),
-                'checkout_date' => $this->request->getPost('checkout'),
-                'room_number' => $this->request->getPost('room_number'),
-                'room' => $this->request->getPost('room'),
-                'adult' => $this->request->getPost('adult'),
-                'amount' => $this->request->getPost('amount'),
-                'night' => $this->request->getPost('night'),
-            ));
+                $reservation->assign(array(
 
-            //initialization price room
-            $price_room = $hotel_room->price;
+                    'user_id' => $this->session->get('auth-user')['id'],
+                    'hotel_id' => $hotel->id,
+                    'reservation_code' => "INV-" . substr(rand(), 0, 6),
+                    'checkin_date' => $this->request->getPost('checkin'),
+                    'checkout_date' => $this->request->getPost('checkout'),
+                    'room_number' => $this->request->getPost('room_number'),
+                    'room' => $this->request->getPost('room'),
+                    'adult' => $this->request->getPost('adult'),
+                    'amount' => $this->request->getPost('amount'),
+                    'night' => $this->request->getPost('night'),
+                ));
 
-            //generate transaction
-            $transaction = new Transaction();
-            $transaction->assign(array(
-                'reservation_id' => $reservationId,
-                'total_price' => ($reservation->adult * $price_room) + ($reservation->amount * $price_room) +
-                    ($reservation->night * $price_room)
-            ));
+                //initialization price room
+                $price_room = $hotel_room->price;
 
-            //save both table related
-            $reservation->Transaction = $transaction;
+                //generate transaction
+                $transaction = new Transaction();
+                $transaction->assign(array(
+                    'reservation_id' => $reservation->id,
+                    'total_price' => ($reservation->adult * $price_room) + ($reservation->amount * $price_room) +
+                        ($reservation->night * $price_room)
+                ));
 
-            if(!$reservation->save()) {
+                //save both table related
+                $reservation->Transaction = $transaction;
 
-                $this->flash->error($reservation->getMessages());
-            }
-            else {
+                if (!$reservation->save()) {
 
-                $this->view->msg ='Reservation Create Was Successfully';
+                    $this->view->error($reservation->getMessages());
+                } else {
+                    $this->view->msg = 'Reservation Create Was Successfully';
+                }
             }
         }
         $this->view->room = $hotel_room;
+        $this->view->form = $form;
     }
 
 }
-
