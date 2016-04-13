@@ -39,6 +39,7 @@
               checkin.hide();
               $('#dpd2')[0].focus();
             }).data('datepicker');
+
             var checkout = $('#dpd2').datepicker({
               onRender: function(date) {
                 return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';

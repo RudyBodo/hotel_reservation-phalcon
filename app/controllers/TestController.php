@@ -59,4 +59,10 @@ class TestController extends \Phalcon\Mvc\Controller
         }
 
     }
+
+    public function calcAction() {
+        $c = new Calc();
+        $this->view->disable();
+        var_dump($c->add());
+    }
 }

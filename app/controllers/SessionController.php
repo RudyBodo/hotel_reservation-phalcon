@@ -84,6 +84,9 @@ class SessionController extends ControllerBase
                     $this->view->error = "User not exist";
                 }
             }
+            else {
+                $this->view->error = "Form is not valid";
+            }
         }
         $this->view->form = $form;
     }
@@ -94,4 +97,3 @@ class SessionController extends ControllerBase
         $this->flash->success('Good Bye');
     }
 }
-

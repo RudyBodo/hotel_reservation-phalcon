@@ -7,33 +7,43 @@ class ReservationController extends ControllerBase
     {
         if (!$this->session->has('auth-user')) {
 
-            $this->flash->error('You dont have permission');
+            $this->view->error = "You dont have permission";
             $this->response->redirect('session/login');
         }
     }
 
     public function indexAction()
     {
-        $id = $this->request->getQuery("id");
+
+        $id = $this->request->getQuery("id", "int");
 
         if ($id) {
-
             $data = Reservation::findFirst($id);
             $this->view->id = $id;
+            return;
 
         } else {
-
             $user_id = $this->session->get('auth-user')['id'];
             $data = Reservation::findByUser_id($user_id);
         }
 
         if(!$data) {
-
-            $this->view->msg = 'Record not found';
+            $this->view->msg = "Record not found";
             return;
         }
-
         $this->view->data = $data;
+    }
+
+    public function detailAction($id)
+    {
+        $reservation = Reservation::findFirst($id);
+        if(!$reservation) {
+            $this->view->msg = "Reservation record not found";
+            return;
+        }
+        $transaction = Transaction::findFirstByReservation_id($id);
+        $this->view->price = $transaction;
+        $this->view->data = $reservation;
     }
 
     public function addAction($id)
@@ -44,8 +54,6 @@ class ReservationController extends ControllerBase
             $this->view->error = 'Hotel not found';
             return;
         }
-
-        $hotel_room = HotelRoom::findByHotel_id($hotel->id);
 
         $form = new ReservationForm;
 
@@ -65,33 +73,33 @@ class ReservationController extends ControllerBase
                     'room_number' => $this->request->getPost('room_number'),
                     'room' => $this->request->getPost('room'),
                     'adult' => $this->request->getPost('adult'),
-                    'amount' => $this->request->getPost('amount'),
-                    'night' => $this->request->getPost('night'),
+                    'night' => $this->request->getPost('night')
                 ));
 
                 //initialization price room
+                $hotel_room = HotelRoom::findFirstByRoom($reservation->room);
                 $price_room = $hotel_room->price;
+                $adult = $reservation->adult;
+                $night = $reservation->night;
+                $total_price = ($price_room * $adult) + ($price_room * $night);
 
                 //generate transaction
                 $transaction = new Transaction();
-                $transaction->assign(array(
-                    'reservation_id' => $reservation->id,
-                    'total_price' => ($reservation->adult * $price_room) + ($reservation->amount * $price_room) +
-                        ($reservation->night * $price_room)
-                ));
+                $transaction->reservation_id = $reservation->id;
+                $transaction->total_price = $total_price;
 
                 //save both table related
                 $reservation->Transaction = $transaction;
 
+                //validate save if error
                 if (!$reservation->save()) {
-
                     $this->view->error($reservation->getMessages());
                 } else {
-                    $this->view->msg = 'Reservation Create Was Successfully';
+                    $this->view->msg = "Reservation Create Was Successfully";
                 }
             }
         }
-        $this->view->room = $hotel_room;
+        $this->view->room = HotelRoom::findByHotel_id($id);
         $this->view->form = $form;
     }
 

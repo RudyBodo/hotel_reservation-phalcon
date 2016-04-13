@@ -5,6 +5,15 @@
 </div>
 {% endif %}
 
+
+{% if err_save %}
+<div class="alert alert-danger">
+    {% for err in err_save %}
+    <strong>Error!!</strong> {{ err }}
+    {% endfor %}
+</div>
+{% endif %}
+
 {% if error %}
 <div class="alert alert-danger">
     <strong>Error!!</strong> {{ error }}

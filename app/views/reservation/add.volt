@@ -1,15 +1,22 @@
 <br>
 <br>
 <br>
-{% if error %}
-<div class="alert alert-danger">
-    <strong>Error!!</strong> {{ error }}
-</div>
-{% endif %}
 <div class="container" align="center">
     <div class="row">
         <div class="col-sm-12 col-md-4 col-md-offset-4">
             <div class="login-box well">
+            {% if error %}
+            <div class="alert alert-danger">
+                <strong>Error!!</strong> {{ error }}
+            </div>
+            {% endif %}
+
+            {% if msg %}
+            <div class="alert alert-success">
+            <strong>Success</strong> {{msg}}
+            </div>
+            {% endif %}
+
                 <i class="fa fa-shopping-cart fa-4x"></i>
                 <h2>Pesan</h2>
                 <form method="post">
@@ -70,14 +77,10 @@
                             <option value="A5">A5</option>
                         </select>
                     </div>
-
                     <button class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Order</button>
-
                 </form>
             </div>
         </div>
-
-
     </div>
 
 </div>
