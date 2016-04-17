@@ -17,7 +17,6 @@
 
 <div class="jumbotron">
     <div class="container">
-        <p>Welcome {{ user.username }}</p>
+        <p>Welcome {{ user }}</p>
     </div>
 </div>
-

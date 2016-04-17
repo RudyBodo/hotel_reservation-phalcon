@@ -17,7 +17,9 @@ class SignUpForm extends Phalcon\Forms\Form
     public function initialize($entity = null, $options = null)
     {
         //username fields
-        $username = new Text('username');
+        $username = new Text('username', array(
+            placeholder => 'Username'
+        ));
         $username->setLabel('Username');
         $username->addValidators(array(
             new PresenceOf(array(
@@ -27,7 +29,9 @@ class SignUpForm extends Phalcon\Forms\Form
         $this->add($username);
 
         //fullname fields
-        $fullname = new Text('fullname');
+        $fullname = new Text('fullname', array(
+            'placeholder' => 'Enter Fullname'
+        ));
         $fullname->setLabel('Fullname');
         $fullname->addValidators(array(
             new PresenceOf(array(
@@ -42,7 +46,9 @@ class SignUpForm extends Phalcon\Forms\Form
         $this->add($fullname);
 
         //email fields
-        $email = new Text('email');
+        $email = new Text('email', array(
+            'placeholder' => 'Enter Email'
+        ));
         $email->setLabel('E-Mail');
         $email->addValidators(array(
             new PresenceOf(array(
@@ -55,7 +61,9 @@ class SignUpForm extends Phalcon\Forms\Form
         $this->add($email);
 
         //address fields
-        $address = new Text('address');
+        $address = new Text('address', array(
+            'placeholder' => 'Address'
+        ));
         $address->setLabel('Address');
         $address->addValidators(array(
             new PresenceOf(array(
@@ -65,7 +73,9 @@ class SignUpForm extends Phalcon\Forms\Form
         $this->add($address);
 
         //phone_number fields
-        $phone_number = new Text('phone_number');
+        $phone_number = new Text('phone_number', array(
+            'placeholder' => 'Phone Number'
+        ));
         $phone_number->setLabel('Phone Number');
         $phone_number->addValidators(array(
             new PresenceOf(array(
@@ -76,7 +86,9 @@ class SignUpForm extends Phalcon\Forms\Form
         $this->add($phone_number);
 
         //field password
-        $password = new Password('password');
+        $password = new Password('password', array(
+            'placeholder' => 'Password'
+        ));
         $password->setLabel('Password');
         $password->addValidators(array(
             new PresenceOf(array(
@@ -96,7 +108,9 @@ class SignUpForm extends Phalcon\Forms\Form
         $this->add($password);
 
         //confirm paswword
-        $confirmPassword = new Password('confirmPassword');
+        $confirmPassword = new Password('confirmPassword', array(
+            'placeholder' => 'Confirm Passwod'
+        ));
         $confirmPassword->setLabel('Confirm Password');
         $confirmPassword->addValidators(array(
             new PresenceOf(array(
@@ -107,8 +121,8 @@ class SignUpForm extends Phalcon\Forms\Form
         $this->add($confirmPassword);
 
     }
-
     public function  messages($name)
+
     {
         if ($this->hasMessagesFor($name)) {
             foreach ($this->getMessagesFor($name) as $message) {

@@ -13,11 +13,14 @@ class UserController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        $this->view->user = User::findFirstById($this->session->get('auth-user')['id']);
+
+        $user = new Users();
+        $session = 'auth-user';
+
+        $this->view->user = $user->getUser($session);
 
 
     }
 
 
 }
-

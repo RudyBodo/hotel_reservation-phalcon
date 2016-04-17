@@ -2,21 +2,6 @@
 
 class AdminController extends \Phalcon\Mvc\Controller
 {
-    public function validateAction() {
-
-        $this->session->has('auth-admin');
-    }
-
-    private function _registerSession($admin)
-    {
-        $this->session->set(
-            'auth-admin',
-            array(
-                'id' => $admin->id,
-                'username' => $admin->username
-            )
-        );
-    }
 
     public function indexAction()
     {
@@ -37,31 +22,33 @@ class AdminController extends \Phalcon\Mvc\Controller
 
                 $username = $this->request->getPost('username');
                 $password = $this->request->getPost('password');
+                $login = new Users();
 
-                //check existing user
-                $admin = User::findFirstByUsername($username);
-
-                $check_hash = $this->security->checkHash($password, $admin->password);
-                $check_role = UserRoles::findFirstByUser_id($admin->id);
-
-                if ($admin) {
-
-                    //check hash password
-                    if ($check_hash) {
-
-                        //check roles
-                        if ($check_role->role_id == 1) {
-                            $this->_registerSession($admin);
-                            $this->response->redirect('admin');
+                //check existing users
+                if($login->checkUser($username)) {
+                    //check hashing user
+                    if($login->checkHashUser($username, $password)) {
+                        //check roles user
+                        if($login->checkRoles($username) == 1) {
+                        
+                            //make session if user valid
+                            $session = 'auth-admin';
+                            $login->setSessionUser($username, $session);
+                            //redirect users in hotel page when valid
+                            return $this->response->redirect('hotel');
                         }
                         else {
-                            $this->view->error = 'User not admin';
+
+                            $this->view->error = "Permission Error";
                         }
-                    } else {
-                        $this->view->error = 'wrong username or password';
                     }
-                } else {
-                    $this->view->error = 'username not exist';
+                    else {
+                        $this->view->error = "Username or password";
+                    }
+                }
+                else {
+
+                    $this->view->error = "User not valid";
                 }
             }
         }
@@ -110,4 +97,3 @@ class AdminController extends \Phalcon\Mvc\Controller
     }
 
 }
-

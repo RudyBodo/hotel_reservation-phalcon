@@ -15,22 +15,14 @@ class ReservationController extends ControllerBase
     public function indexAction()
     {
 
-        $id = $this->request->getQuery("id", "int");
-
-        if ($id) {
-            $data = Reservation::findFirst($id);
-            $this->view->id = $id;
-            return;
-
-        } else {
-            $user_id = $this->session->get('auth-user')['id'];
-            $data = Reservation::findByUser_id($user_id);
-        }
+        $user_id = $this->session->get('auth-user')['id'];
+        $data = Reservation::findByUser_id($user_id);
 
         if(!$data) {
+            
             $this->view->msg = "Record not found";
-            return;
         }
+
         $this->view->data = $data;
     }
 

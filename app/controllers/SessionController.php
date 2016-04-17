@@ -3,15 +3,9 @@
 class SessionController extends ControllerBase
 {
 
-    private function _registerSession($user) {
+    public function indexAction() {
 
-       $this->session->set(
-           'auth-user',
-           array(
-               'id' => $user->id,
-               'username' => $user->username
-           )
-       );
+        return $this->response->redirect('/session/login');
     }
 
     public function signupAction()
@@ -24,30 +18,20 @@ class SessionController extends ControllerBase
 
                 $user = new User();
 
-                $user->assign(array(
-                    'username' => $this->request->getPost('username'),
-                    'fullname' => $this->request->getPost('fullname'),
-                    'email' => $this->request->getPost('email'),
-                    'address' => $this->request->getPost('address'),
-                    'phone_number' => $this->request->getPost('phone_number'),
-                    'password' => $this->security->hash($this->request->getPost('password')),
-                ));
+                $username = $this->request->getPost('username');
+                $fullname = $this->request->getPost('fullname');
+                $email = $this->request->getPost('email');
+                $address = $this->request->getPost('address');
+                $phone_number = $this->request->getPost('phone_number');
+                $password = $this->request->getPost('password');
 
-                $userRoles = new UserRoles();
-                $userRoles->assign(array(
-                    'user_id' => '$userId',
-                    'role_id' => 2
-                ));
+                //call fucntion add users
+                $reg = new Users();
+                $reg->add($user, $username, $fullname, $email, $address, $phone_number, $password);
 
-                $user->UserRoles = $userRoles;
-
-                if (!$user->save()) {
-
-                    $this->view->error = $user->getMessages($user);
-                } else {
-
-                    $this->view->msg ="Registration Success";
-                }
+                $user->UserRoles = $reg->assignRoles($user->id, 2);
+                //save data to database;
+                $reg->saveUser($user);
             }
         }
 
@@ -60,34 +44,33 @@ class SessionController extends ControllerBase
 
         if($this->request->isPost()) {
 
-            if($form->isValid($this->request->getPost()) != false) {
+            if($form->isValid($this->request->getPost())) {
 
                 $username = $this->request->getPost('username');
                 $password = $this->request->getPost('password');
 
-                //check existing user and hash password
-                $user = User::findFirstByUsername($username);
-
-                if ($user) {
-
-                    if ($this->security->checkHash($password, $user->password)) {
-
-                        //create session to user
-                        $this->_registerSession($user);
-                        $this->view->msg = "Login Success";
+                $login = new Users();
+                //check existing users
+                if($login->checkUser($username)) {
+                    //check hashing password
+                    if($login->checkHashUser($username, $password)){
+                        //make session if hashing password valid
+                        $session = 'auth-user';
+                        $login->setSessionUser($username, $session);
                         return $this->response->redirect('user');
-                    } else {
-
-                        $this->view->error = 'Wrong username or password';
                     }
-                } else {
-                    $this->view->error = "User not exist";
+                    else {
+
+                        $this->view->error = "Username or Password";
+                    }
+                }
+                else {
+
+                    $this->view->error = "user not valid";
                 }
             }
-            else {
-                $this->view->error = "Form is not valid";
-            }
         }
+
         $this->view->form = $form;
     }
 

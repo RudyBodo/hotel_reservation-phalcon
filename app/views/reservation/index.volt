@@ -1,5 +1,11 @@
 <h1>Reservation</h1>
 
+{% if msg %}
+
+<div class="alert alert-danger">
+    <strong>Error!!</strong> {{ msg }}
+</div>
+{% endif %}
 <table class="table">
     <thead>
         <th>Reservation Code</th>

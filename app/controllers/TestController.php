@@ -30,39 +30,47 @@ class TestController extends \Phalcon\Mvc\Controller
 
     public function loginAction()
     {
-        $username = 'admin';
-        $password = andirudini123;
+        $username = 'rudybodo';
+        $password = 'rudybodo123fsfssa';
 
-        //check existing user
-        $admin = User::findFirstByUsername($username);
-
-        $check_hash = $this->security->checkHash($password, $admin->password);
-        $check_role = UserRoles::findFirstByUser_id($admin->id);
-
-        if($admin) {
-            //check hash password
-            if($check_hash) {
-
-                $this->flash->success('password hash check success');
-                //check roles
-                if($check_role->role_id == 1)
-
-                    $this->_registerSession($admin);
-                    $this->response->redirect('admin');
-            }
-            else {
-                $this->flash->error('wrong username and password');
-            }
-        }
-        else {
-            $this->flash->error('username not exist');
-        }
-
+        $a = new Users();
+        $a->checkUser($username);
+        $a->checkHashUser($username, $password);
     }
 
     public function calcAction() {
+
         $c = new Calc();
         $this->view->disable();
         var_dump($c->add());
+
+    }
+
+    public function regAction() {
+
+        //instance object models
+        $users = new User();
+
+        $username = 'sulish';
+        $fullname = 'andi sulish ramdhani';
+        $email = 'andisulish@gmail.com';
+        $address = 'Jalan Melati';
+        $phone_number = '081223997987';
+        $password = 'qwerty123';
+
+        $a = new Users();
+        $a->add($users, $username, $fullname, $email, $address, $phone_number, $password);
+
+        $users->UserRoles = $a->assignRoles($users->id, 2);
+
+         if(!$users->save()) {
+
+            $this->flash->error($users->getMessages());
+        }
+
+        else {
+
+            $this->flash->success("Register was successfully");
+        }
     }
 }

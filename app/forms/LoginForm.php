@@ -42,7 +42,7 @@ class LoginForm extends Form
         $this->add($password);
     }
 
-    public function  messages($name)
+    public function messages($name)
     {
         if ($this->hasMessagesFor($name)) {
             foreach ($this->getMessagesFor($name) as $message) {
